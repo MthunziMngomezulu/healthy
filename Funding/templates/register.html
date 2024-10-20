@@ -1,0 +1,162 @@
+{% extends 'base.html' %}
+{% block title %}
+Register Page
+{% endblock %}
+
+{% block content %}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        background-color: whitesmoke;
+        background-image: url('../static/bg1.jpeg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        color: black;
+        padding: 20px;
+    }
+
+    .container {
+        max-width: 1000px;
+        margin-top: 100px;
+        background-color: rgba(255, 255, 255, 0.8);
+        border: 12px solid #007bff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .flash-messages {
+        position: fixed;
+        top: 60px;
+        right: 20px;
+        z-index: 9999;
+    }
+</style>
+
+<body class="text-center">
+    <div class="container">
+        <form method="POST" class="form-register" style="color:black" action="{{url_for('register_page')}}">
+            {{ form.hidden_tag() }}
+            <h1 class="h3 mb-3 font-weight-normal">
+                Please Create Your Profile
+            </h1>
+            <br>
+
+            <!-- Username -->
+            {{ form.username.label(class="form-control-label") }}
+            {% if form.username.errors %}
+            {{ form.username(class="form-control is-invalid", placeholder="Username") }}
+            <div class="invalid-feedback">
+                {% for error in form.username.errors %}
+                <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+            {% else %}
+            {{ form.username(class="form-control form-control-lg", placeholder="Username") }}
+            {% endif %}
+
+            <!-- Surname -->
+            {{ form.surname.label(class="form-control-label") }}
+            {% if form.surname.errors %}
+            {{ form.surname(class="form-control is-invalid", placeholder="Surname") }}
+            <div class="invalid-feedback">
+                {% for error in form.surname.errors %}
+                <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+            {% else %}
+            {{ form.surname(class="form-control form-control-lg", placeholder="Surname") }}
+            {% endif %}
+
+            <!-- Email Address -->
+            {{ form.email_address.label(class="form-control-label") }}
+            {% if form.email_address.errors %}
+            {{ form.email_address(class="form-control is-invalid", placeholder="Email Address") }}
+            <div class="invalid-feedback">
+                {% for error in form.email_address.errors %}
+                <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+            {% else %}
+            {{ form.email_address(class="form-control form-control-lg", placeholder="Email Address") }}
+            {% endif %}
+
+            <!-- Contact Details -->
+            {{ form.contact_details.label(class="form-control-label") }}
+            {% if form.contact_details.errors %}
+            {{ form.contact_details(class="form-control is-invalid", placeholder="Contact Number") }}
+            <div class="invalid-feedback">
+                {% for error in form.contact_details.errors %}
+                <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+            {% else %}
+            {{ form.contact_details(class="form-control form-control-lg", placeholder="Contact Number") }}
+            {% endif %}
+
+            <!-- Address -->
+            {{ form.address.label(class="form-control-label") }}
+            {% if form.address.errors %}
+            {{ form.address(class="form-control is-invalid", placeholder="Residential Address") }}
+            <div class="invalid-feedback">
+                {% for error in form.address.errors %}
+                <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+            {% else %}
+            {{ form.address(class="form-control form-control-lg", placeholder="Residential Address") }}
+            {% endif %}
+
+            <!-- Date of Birth -->
+            {{ form.dateofbirth.label(class="form-control-label") }}
+            {% if form.dateofbirth.errors %}
+            {{ form.dateofbirth(class="form-control is-invalid", placeholder="Date of Birth") }}
+            <div class="invalid-feedback">
+                {% for error in form.dateofbirth.errors %}
+                <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+            {% else %}
+            {{ form.dateofbirth(class="form-control form-control-lg", placeholder="Date of Birth") }}
+            {% endif %}
+
+            <!-- Password -->
+            {{ form.password.label(class="form-control-label") }}
+            {% if form.password.errors %}
+            {{ form.password(class="form-control is-invalid", placeholder="Password") }}
+            <div class="invalid-feedback">
+                {% for error in form.password.errors %}
+                <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+            {% else %}
+            {{ form.password(class="form-control form-control-lg", placeholder="Password") }}
+            {% endif %}
+
+            <!-- Confirm Password -->
+            {{ form.cornfirm_password.label(class="form-control-label") }}
+            {% if form.cornfirm_password.errors %}
+            {{ form.cornfirm_password(class="form-control", placeholder="Confirm Password") }}
+            <div class="invalid-feedback">
+                {% for error in form.cornfirm_password.errors %}
+                <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+            {% else %}
+            {{ form.cornfirm_password(class="form-control form-control-lg") }}
+            {% endif %}
+
+            <br>
+            <div class="checkbox mb-3">
+                <h6>Already have an account?</h6>
+                <a class="btn btn-sm btn-secondary" href="{{ url_for('login_page') }}">Login</a>
+            </div>
+            <br>
+
+            {{ form.submit(class="btn btn-lg btn-block btn-primary") }}
+        </form>
+    </div>
+</body>
+{% endblock %}

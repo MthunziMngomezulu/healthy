@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% block title %}
+    Login Page
+{% endblock %}
+
+{% block content %}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        background-color: whitesmoke;
+        background-image: url('../static/bg1.jpeg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;              
+        color: black;
+        padding: 20px;
+    }
+
+    .container {
+        max-width: 600px;
+        margin-top: 100px;
+        background-color: rgba(255, 255, 255, 0.8);
+        border: 12px solid #007bff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+        font-size: 24px;
+        color: #007bff;
+        margin-bottom: 20px;
+    }
+
+    .checkbox {
+        margin-bottom: 10px;
+    }
+
+    .scroll-to-top {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        display: none;
+        width: 40px;
+        height: 40px;
+        text-align: center;
+        background: #007bff;
+        color: #fff;
+        border-radius: 50%;
+        cursor: pointer;
+        z-index: 1000;
+    }
+
+    .scroll-to-top.show {
+        display: block;
+    }
+
+    .flash-messages {
+        position: fixed;
+        top: 60px; 
+        right: 20px;
+        z-index: 9999;
+    }
+</style>
+
+<body class="text-center">
+    <div class="container">
+        <form method="POST" class="form-signin" style="color:black">
+            {{ form.hidden_tag() }}
+            <h1 class="h3 mb-3 font-weight-normal">Please Login</h1>
+
+            <!-- Username Field -->
+            <div class="form-group">
+                {{ form.username.label() }}
+                {{ form.username(class="form-control", placeholder="User Name") }}
+                {% if form.username.errors %}
+                    <div class="text-danger">
+                        {% for error in form.username.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Password Field -->
+            <div class="form-group">
+                {{ form.password.label() }}
+                {{ form.password(class="form-control", placeholder="Password") }}
+                {% if form.password.errors %}
+                    <div class="text-danger">
+                        {% for error in form.password.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Google reCAPTCHA Widget 
+            <div class="g-recaptcha" data-sitekey="6Lfrc10qAAAAAMfm8FwyFw4QXAu721wPkAKtzAPH"></div>
+            <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+-->
+            <br>
+
+            <!-- Link to Register Page -->
+            <div class="checkbox mb-3">
+               <h6>Don't have an account?</h6>
+               <a class="btn btn-sm btn-secondary" href="{{ url_for('register_page') }}">Register</a>
+            </div>
+
+            <!-- Submit Button -->
+            {{ form.submit(class="btn btn-lg btn-block btn-primary") }}
+
+        </form>
+    </div>
+</body>
+
+{% endblock %}

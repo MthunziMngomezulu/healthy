@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+
+{% block title %}
+  Application Form
+{% endblock %}
+
+{% block content %}
+<style>
+  body {
+          font-family: Arial, sans-serif;
+          line-height: 1.6;
+          background-color: whitesmoke;
+          background-image: url('../static/bg1.jpeg');
+          background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;              
+          color: black;
+          padding: 20px;
+      }
+
+      .container {
+          max-width: 1000px;
+          margin-top: 100px;
+          background-color: white;
+          border: 12px solid #007bff;
+          padding: 20px;
+          border-radius: 8px;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      h1 {
+          font-size: 24px;
+          color: #007bff;
+          margin-bottom: 20px;
+      }
+
+      h2 {
+          font-size: 20px;
+          color: #007bff;
+          margin-top: 30px;
+          margin-bottom: 15px;
+      }
+      h3{
+        color: #007bff;
+      }
+
+      p {
+          margin-bottom: 15px;
+      }
+
+      ul {
+          list-style-type: none;
+          padding: 0;
+          margin-top: 0;
+      }
+
+      ul li {
+          margin-bottom: 10px;
+      }
+      .scroll-to-top {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        display: none;
+        width: 40px;
+        height: 40px;
+        text-align: center;
+        background: #007bff;
+        color: #fff;
+        border-radius: 50%;
+        cursor: pointer;
+        z-index: 1000;
+    }
+    .scroll-to-top i {
+        line-height: 40px;
+    }
+    /* Show the button when user scrolls down */
+    .scroll-to-top.show {
+        display: block;
+    }
+    .flash-messages {
+    position: fixed;
+    top: 60px; /* Adjust based on navbar height */
+    right: 20px;
+    z-index: 9999; /* Ensure flash messages appear above other content */
+}
+  </style>
+</head>
+  <div class="container mt-4">
+    <h1>New Job Vacanies form</h1>
+    <form method="POST" action="{{ url_for('application_form_page') }}" enctype="multipart/form-data">      
+      <div class="mb-3">
+        <label for="name" class="form-label">Job Post Name</label>
+        <input type="text" class="form-control" id="name" name="name" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="company" class="form-label">Company</label>
+        <input type="text" class="form-control" id="company" name="company" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <input type="text" class="form-control" id="description" name="description" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="enddate" class="form-label">Expiry</label>
+        <input type="date" class="form-control" id="enddate" name="enddate" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="amount" class="form-label">Amount</label>
+        <input type="number" class="form-control" id="amount" name="amount" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="link" class="form-label">Link</label>
+        <input type="text" class="form-control" id="link" name="link" required>
+      </div>
+      {{ form.faculty.label }} {{ form.faculty }}
+      {{ form.hidden_tag() }}
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
+{% endblock %}

@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+{% block title %}
+   Job Detail
+{% endblock %}
+
+{% block content %}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        background-color: whitesmoke;
+        background-image: url('../static/health_bg.jpg'); /* Updated background image */
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;              
+        color: black;
+        padding: 20px;
+    }
+
+    .container {
+        max-width: 1000px;
+        margin-top: 100px;
+        background-color: white;
+        border: 12px solid #007bff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+        font-size: 24px;
+        color: #007bff;
+        margin-bottom: 20px;
+    }
+
+    h2 {
+        font-size: 20px;
+        color: #007bff;
+        margin-top: 30px;
+        margin-bottom: 15px;
+    }
+
+    h3{
+      color: #007bff;
+    }
+
+    p {
+        margin-bottom: 15px;
+    }
+
+    ul {
+        list-style-type: none;
+        padding: 0;
+        margin-top: 0;
+    }
+
+    ul li {
+        margin-bottom: 10px;
+    }
+
+    .scroll-to-top {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      display: none;
+      width: 40px;
+      height: 40px;
+      text-align: center;
+      background: #007bff;
+      color: #fff;
+      border-radius: 50%;
+      cursor: pointer;
+      z-index: 1000;
+    }
+
+    .scroll-to-top i {
+        line-height: 40px;
+    }
+
+    /* Show the button when user scrolls down */
+    .scroll-to-top.show {
+        display: block;
+    }
+
+    .flash-messages {
+        position: fixed;
+        top: 60px; /* Adjust based on navbar height */
+        right: 20px;
+        z-index: 9999; /* Ensure flash messages appear above other content */
+    }
+</style>
+
+<div class="flash-messages">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+</div>
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="text-center">Job Detail</h2> <!-- Updated title -->
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label class="font-weight-bold">Job Title:</label>
+                        <p>{{ bursary.job_title }}</p> <!-- Updated variable -->
+                    </div>
+                    <div class="form-group">
+                        <label class="font-weight-bold">Healthcare Facility:</label>
+                        <p>{{ bursary.health_facility }}</p> <!-- Updated variable -->
+                    </div>
+                    <div class="form-group">
+                        <label class="font-weight-bold">Description:</label>
+                        <p>{{ bursary.description }}</p>
+                    </div>
+                    <div class="form-group">
+                        <label class="font-weight-bold">Responsibilities:</label>
+                        <p>{{ bursary.responsibilities }}</p> <!-- Updated variable -->
+                    </div>
+                    <div class="form-group">
+                        <label class="font-weight-bold">Work Environment:</label>
+                        <p>{{ bursary.environment }}</p> <!-- Updated variable -->
+                    </div>
+                    <div class="form-group">
+                        <label class="font-weight-bold">Application Link:</label>
+                        <p><a href="{{ bursary.link }}" target="_blank" class="btn btn-primary">Apply Now!</a></p> <!-- Updated variable -->
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a href="{{ url_for('bursary_page') }}" class="btn btn-secondary">Back to Job Listings</a> <!-- Updated URL endpoint -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

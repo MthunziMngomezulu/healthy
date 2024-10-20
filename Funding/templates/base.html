@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <title> {% block title %} {% endblock %} </title>
+    <style>
+      body {
+              font-family: Arial, sans-serif;
+              line-height: 1.6;
+              background-color: whitesmoke;
+              background-image: url('../static/bg1.jpeg');
+              background-size: cover;
+              background-position: center;
+              background-repeat: no-repeat;              
+              color: black;
+              padding: 20px;
+          }
+  
+          .container {
+              max-width: 1000px;
+              margin: 0 auto;
+              background-color: rgba(255, 255, 255, 0.8);
+              border: 12px solid #007bff;
+              padding: 20px;
+              border-radius: 8px;
+              box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+          }
+          h1 {
+              font-size: 24px;
+              color: #007bff;
+              margin-bottom: 20px;
+          }
+  
+          h2 {
+              font-size: 20px;
+              color: #007bff;
+              margin-top: 30px;
+              margin-bottom: 15px;
+          }
+          h3{
+            color: #007bff;
+          }
+  
+          p {
+              margin-bottom: 15px;
+          }
+  
+          ul {
+              list-style-type: none;
+              padding: 0;
+              margin-top: 0;
+          }
+  
+          ul li {
+              margin-bottom: 10px;
+          }
+          .scroll-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: none;
+            width: 40px;
+            height: 40px;
+            text-align: center;
+            background: #007bff;
+            color: #fff;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 1000;
+        }
+        .scroll-to-top i {
+            line-height: 40px;
+        }
+        /* Show the button when user scrolls down */
+        .scroll-to-top.show {
+            display: block;
+        }
+        .flash-messages {
+        position: fixed;
+        top: 60px; /* Adjust based on navbar height */
+        right: 20px;
+        z-index: 9999; /* Ensure flash messages appear above other content */
+}
+      </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+      <a class="navbar-brand" href="{{ url_for('home_page') }}"><b>HealthNet</b></a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="{{ url_for('home_page') }}">Home <span class="sr-only">(current)</span>
+            </a>
+          </li>          
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('about_page') }}">About Us</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('contact') }}">Contact Us</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('bursary_page') }}">Job Vacanies</a>
+          </li>
+           {% if current_user and current_user.username == "Admin" %} 
+           <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('application_form_page') }}">New Job Post</a>
+          </li> 
+          {% endif %}
+        </ul> {% if current_user.is_authenticated %} <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('logout_page') }} ">Logout</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('profile') }} " style="color: lawngreen; font-weight: bold"> {{ current_user.username }}</a>
+          </li>
+        </ul> {% else %} <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('login_page') }}">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('register_page') }}">Register</a>
+          </li>
+        </ul> {% endif %}
+      </div>
+    </nav> 
+    <div class="flash-messages">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+              {% for category, message in messages %}
+                  <div class="alert alert-{{ category }}">
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                      </button>
+                      {{ message }}
+                  </div>
+              {% endfor %}
+          {% endif %}
+      {% endwith %}
+  </div>
+    {% block content %} {% endblock %}
+    <div class="scroll-to-top" onclick="scrollToTop()">
+      &#9650;
+  </div>
+    <!-- Future Content here -->
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->    
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+
+    <script>
+      // Function to scroll to the top of the page
+      function scrollToTop() {
+          window.scrollTo({
+              top: 0,
+              behavior: 'smooth' // Smooth scrolling behavior
+          });
+      }
+
+      // Show/hide the scroll-to-top button based on scroll position
+      $(window).scroll(function() {
+          if ($(this).scrollTop() > 100) {
+              $('.scroll-to-top').addClass('show');
+          } else {
+              $('.scroll-to-top').removeClass('show');
+          }
+      });
+  </script>
+  </body>
+</html>

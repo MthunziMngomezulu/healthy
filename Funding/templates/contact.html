@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Contact Us
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8">
+            <h2>Contact Us</h2>
+            <p>Hello, we hope you have enjoyed your experience on our platform. If you have any suggestions or feedback on improvements, please feel free to send us a message. We look forward to hearing from you!</p>
+            <form method="POST" action="{{ url_for('contact') }}">
+                {{ form.csrf_token }}
+                <div class="form-group">
+                    {{ form.name.label(class="form-label") }}
+                    {{ form.name(class="form-control", placeholder="Your Name") }}
+                </div>
+
+                <div class="form-group">
+                    {{ form.email.label(class="form-label") }}
+                    {{ form.email(class="form-control", placeholder="Your Email Address") }}
+                </div>
+
+                <div class="form-group">
+                    {{ form.message.label(class="form-label") }}
+                    {{ form.message(class="form-control", rows=4, placeholder="Your Message") }}
+                </div>
+
+                <button type="submit" class="btn btn-primary">Send Message</button>
+            </form>
+        </div>
+        <div class="col-md-4">
+            <h2>Visit Us</h2>
+            <p>For further information, you are welcome to visit us at:</p>
+            <p><strong>DUT Steve Biko</strong></p>
+            <p><strong>DUT Ritson</strong></p>
+            <p><strong>DUT ML Sultan</strong></p>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-4">
+    <h4>Find Us on the Map</h4>
+    <div id="map" style="height: 400px;"></div>
+    <div class="form-inline mt-3">
+        <input type="text" id="searchInput" class="form-control mr-2" placeholder="Enter a location">
+        <button onclick="searchLocation()" class="btn btn-primary">Search</button>
+    </div>
+</div>
+
+
+
+    <script>
+        var map;
+        var currentLocationMarker;
+        var destinationMarker;
+        var directionsService;
+        var directionsRenderer;
+
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat: 40.712776, lng: -74.005974 },
+                zoom: 12
+            });
+
+            // Get the current location of the user
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    var currentLocation = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    };
+
+                    setCurrentLocationMarker(currentLocation);
+                    map.setCenter(currentLocation);
+                }, function() {
+                    handleLocationError(true, map.getCenter());
+                });
+            } else {
+                // Browser doesn't support Geolocation
+                handleLocationError(false, map.getCenter());
+            }
+
+            directionsService = new google.maps.DirectionsService();
+            directionsRenderer = new google.maps.DirectionsRenderer({
+                map: map,
+                polylineOptions: {
+                    strokeColor: "red"
+                }
+            });
+        }
+
+        function setCurrentLocationMarker(location) {
+            if (currentLocationMarker) {
+                currentLocationMarker.setMap(null);
+            }
+
+            currentLocationMarker = new google.maps.Marker({
+                position: location,
+                map: map,
+                title: 'Current Location'
+            });
+        }
+
+        function searchLocation() {
+            var geocoder = new google.maps.Geocoder();
+            var address = document.getElementById('searchInput').value;
+
+            geocoder.geocode({ 'address': address }, function(results, status) {
+                if (status === 'OK') {
+                    var destinationLocation = results[0].geometry.location;
+
+                    if (destinationMarker) {
+                        destinationMarker.setMap(null);
+                    }
+
+                    destinationMarker = new google.maps.Marker({
+                        position: destinationLocation,
+                        map: map,
+                        title: 'Destination'
+                    });
+
+                    var currentLocation = currentLocationMarker.getPosition();
+                    var destination = destinationMarker.getPosition();
+
+                    calculateAndDisplayRoute(currentLocation, destination);
+                } else {
+                    alert('Geocode was not successful for the following reason: ' + status);
+                }
+            });
+        }
+
+        function calculateAndDisplayRoute(start, end) {
+            directionsService.route({
+                origin: start,
+                destination: end,
+                travelMode: 'DRIVING'
+            }, function(response, status) {
+                if (status === 'OK') {
+                    directionsRenderer.setDirections(response);
+                } else {
+                    window.alert('Directions request failed due to ' + status);
+                }
+            });
+        }
+    </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCYi59jw2wI7ioq4wB3ZCzYoHvXTdsSC-g&callback=initMap"></script>
+{% endblock %}

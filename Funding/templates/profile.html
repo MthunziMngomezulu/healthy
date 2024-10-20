@@ -1,0 +1,158 @@
+{% extends'base.html' %}
+{% block title %}
+Profile
+{% endblock %}
+
+{% block content %}
+
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: whitesmoke;
+            background-image: url('../static/bg1.jpeg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: black;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin-top: 100px;
+            background-color: white;
+            border: 12px solid #007bff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 24px;
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-size: 20px;
+            color: #007bff;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        h3 {
+            color: #007bff;
+        }
+
+        p {
+            margin-bottom: 15px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin-top: 0;
+        }
+
+        ul li {
+            margin-bottom: 10px;
+        }
+
+        .scroll-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: none;
+            width: 40px;
+            height: 40px;
+            text-align: center;
+            background: #007bff;
+            color: #fff;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 1000;
+        }
+
+        .scroll-to-top i {
+            line-height: 40px;
+        }
+
+        /* Show the button when user scrolls down */
+        .scroll-to-top.show {
+            display: block;
+        }
+
+        .flash-messages {
+            position: fixed;
+            top: 60px;
+            /* Adjust based on navbar height */
+            right: 20px;
+            z-index: 9999;
+            /* Ensure flash messages appear above other content */
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            fetch('/available_jobs_count')
+                .then(response => response.json())
+                .then(data => {
+                    animateValue('available-jobs-count', 0, data.count, 1000); // Update the count with animation
+                });
+
+            // Function to animate the count
+            function animateValue(id, start, end, duration) {
+                var range = end - start;
+                var current = start;
+                var increment = end > start ? 1 : -1;
+                var stepTime = Math.abs(Math.floor(duration / range));
+                var obj = document.getElementById(id);
+                var timer = setInterval(function () {
+                    current += increment;
+                    obj.innerText = current;
+                    if (current == end) {
+                        clearInterval(timer);
+                    }
+                }, stepTime);
+            }
+        });
+    </script>
+</head>
+<div class="container mt-4">
+    <h2>Profile</h2>
+    <h3>Available Jobs for You: <span id="available_bursaries_count">{{ available_bursaries_count }}</span></h3>
+    <form method="POST" action="{{ url_for('profile') }}">
+        {{ form.csrf_token }}
+        <div class="form-group">
+            {{ form.username.label(class="form-label") }}
+            {{ form.username(class="form-control") }}
+        </div>
+
+        <div class="form-group">
+            {{ form.email_address.label(class="form-label") }}
+            {{ form.email_address(class="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.password1.label() }}
+            {{ form.password1(class="form-control", placeholder="Password") }}
+        </div>
+        <div class="form-group">
+            {{ form.dateofbirth.label() }}
+            {{ form.dateofbirth(class="form-control", placeholder="Date of Birth") }}
+        </div>
+        <div class="form-group">
+            {{ form.faculty.label() }}
+            {{ form.faculty(class="form-control", placeholder="Field of Expertise") }}
+        </div>
+
+        {% if current_user and current_user.username == "Admin" %}
+        <div class="form-group">
+            {{ form.role.label(class="form-label") }}
+            {{ form.role(class="form-control") }}
+        </div>
+        {% endif %}
+        <button type="submit" class="btn btn-primary">Update Profile</button>
+    </form>
+</div>
+{% endblock %}
